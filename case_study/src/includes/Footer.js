@@ -18,7 +18,7 @@ function Footer(props) {
                             <div className="col-lg-3 col-md-6">
                                 <div className="footer-widget footer-logo-widget">
                                     <div className="footer-logo">
-                                        <img src="assets/shop/images/logo-2.png" alt="logo" />
+                                        <img src="/assets/shop/images/logo-2.png" alt="logo" />
                                     </div>
                                     <p>
                                         I have been a loyal customer of this auto parts company for years
@@ -129,16 +129,16 @@ function Footer(props) {
                             <div className="copyright-card">
                                 <h6>We accept :</h6>
                                 <a href="#">
-                                    <img src="assets/shop/images/icons/card-1.png" alt="card" />
+                                    <img src="/assets/shop/images/icons/card-1.png" alt="card" />
                                 </a>
                                 <a href="#">
-                                    <img src="assets/shop/images/icons/card-2.png" alt="card" />
+                                    <img src="/assets/shop/images/icons/card-2.png" alt="card" />
                                 </a>
                                 <a href="#">
-                                    <img src="assets/shop/images/icons/card-3.png" alt="card" />
+                                    <img src="/assets/shop/images/icons/card-3.png" alt="card" />
                                 </a>
                                 <a href="#">
-                                    <img src="assets/shop/images/icons/card-4.png" alt="card" />
+                                    <img src="/assets/shop/images/icons/card-4.png" alt="card" />
                                 </a>
                             </div>
                             <ul className="menu">

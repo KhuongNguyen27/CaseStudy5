@@ -1,6 +1,8 @@
 import React from 'react';
 import Master from '../layouts/Master';
-import Product_home from './Product_home';
+import Product_home from '../components/Product_home';
+import Category_home from '../components/Category_home';
+
 function Home(props) {
     return (
         <Master>
@@ -59,52 +61,6 @@ function Home(props) {
                                 </div>
                             </div>
                         </div>
-                        {/* <div class="col-xl-3">
-                                <div class="banner-right-container">
-                                    <div class="banner-right-container-top">
-                                        <div class="banner-right-car">
-                                            <img src="{{ asset('shop/images/icons/car-1.png') }}') }}" alt="car">
-                                        </div>
-                                        <div class="banner-right-title">
-                                            <h6>Over 22500 Zippo.</h6>
-                                            <h5>Find Your Auto Parts</h5>
-                                        </div>
-                                    </div>
-                                    <div class="select-container">
-                                        <select name="make">
-                                            <option value="*">Select Make </option>
-                                            <option value=".category-1">Make 01</option>
-                                            <option value=".category-2">Make 02</option>
-                                            <option value=".category-3">Make 03</option>
-                                        </select>
-                                        <select name="make">
-                                            <option value="*">Select Model </option>
-                                            <option value=".category-1">Make 01</option>
-                                            <option value=".category-2">Make 02</option>
-                                            <option value=".category-3">Make 03</option>
-                                        </select>
-                                        <select name="make">
-                                            <option value="*">Select Year </option>
-                                            <option value=".category-1">Make 01</option>
-                                            <option value=".category-2">Make 02</option>
-                                            <option value=".category-3">Make 03</option>
-                                        </select>
-                                        <select name="make">
-                                            <option value="*">Select Options </option>
-                                            <option value=".category-1">Make 01</option>
-                                            <option value=".category-2">Make 02</option>
-                                            <option value=".category-3">Make 03</option>
-                                        </select>
-                                    </div>
-                                    <div class="select-btn">
-                                        <a href="#" class="theme-btn btn-style-one d-flex justify-content-center">Find Auto Parts<i
-                                            class="flaticon-right-arrow"></i></a>
-                                    </div>
-                                    <div class="select-shape">
-                                        <img src="{{ asset('shop/images/shape/select-shape.png') }}') }}" alt="shape">
-                                    </div>
-                                </div>
-                            </div> */}
                     </div>
                 </div>
             </section>
@@ -129,12 +85,6 @@ function Home(props) {
                                             data-lazy-src="https://www.zippovn.vn/wp-content/uploads/2018/06/srv_1111.png"
                                             data-ll-status="loaded"
                                         />
-                                        <noscript>
-                                            &lt;img width="42" height="38"
-                                            src="https://www.zippovn.vn/wp-content/uploads/2018/06/srv_1111.png"
-                                            class="attachment-medium size-medium" alt="xe máy"
-                                            decoding="async" /&gt;
-                                        </noscript>
                                     </div>
                                 </div>
                             </div>
@@ -168,12 +118,6 @@ function Home(props) {
                                             data-lazy-src="https://www.zippovn.vn/wp-content/uploads/2018/06/srv_2111.png"
                                             data-ll-status="loaded"
                                         />
-                                        <noscript>
-                                            &lt;img width="42" height="38"
-                                            src="https://www.zippovn.vn/wp-content/uploads/2018/06/srv_2111.png"
-                                            class="attachment-medium size-medium" alt="điện thoại"
-                                            decoding="async" /&gt;
-                                        </noscript>
                                     </div>
                                 </div>
                             </div>
@@ -233,25 +177,7 @@ function Home(props) {
                 <div className="auto-container">
                     <div className="cta-container">
                         <div className="cta five-item-carousel owl-carousel owl-theme">
-                            @foreach($categories as $category)
-                            <div className="cta-content">
-                                <div className="cta-image">
-                                    <img
-                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                        src="{{ asset($category->image) }}"
-                                        alt="parts"
-                                    />
-                                </div>
-                                <div className="cta-info">
-                                    <h5>
-                                        {"{"}
-                                        {"{"} $category-&gt;name {"}"}
-                                        {"}"}
-                                    </h5>
-                                    {/* <h6>4 devices</h6> */}
-                                </div>
-                            </div>
-                            @endforeach
+                            <Category_home />
                         </div>
                     </div>
                 </div>
@@ -262,16 +188,6 @@ function Home(props) {
                     <h2>Products</h2>
                 </div>
                 <Product_home />
-            </div>
-            <div className="col-12 text-center m-3">
-                <button className="btn btn-success load-more-product">Show more</button>
-            </div>
-            <div className="auto-load text-center ml-3" style={{ display: "none" }}>
-                <div className="d-flex justify-content-center">
-                    <div role="status">
-                        <span>Loading...</span>
-                    </div>
-                </div>
             </div>
         </Master>
     );

@@ -28,6 +28,19 @@ class ProductModel {
             })
         });
     }
+    findwcate(id){
+        return new Promise((resolve,reject) => {
+            axios
+            .get(this.api_url+'withcate/'+id)
+            .then(res => {
+                resolve(res.data)
+            })
+            .catch(err => {
+                reject(err)
+            })
+        });
+    }
+    
 }
 
 export default new ProductModel;
