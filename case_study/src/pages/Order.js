@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Master from '../layouts/Master';
 import { Link } from 'react-router-dom';
+import OrderModel from '../models/OrderModel';
 
 function Order(props) {
+    const [orders, setOrders] = useState({})
+    let customerData = 
+    useEffect(()=>{
+        OrderModel.findwcus()
+    })
     return (
         <Master>
             <section className="page-title p_relative centred">
@@ -32,8 +38,10 @@ function Order(props) {
             <section className="cart-section p_relative pt_140 pb_150">
                 <div className="auto-container">
                     <div className="row clearfix">
-                        @foreach($orders as $order) @foreach($order-&gt;orderdetail as $detail)
-                        @endforeach @endforeach
+                        @foreach($orders as $order) 
+                            @foreach($order-&gt;orderdetail as $detail)
+                            @endforeach 
+                        @endforeach
                         <table className="table w-100">
                             <thead>
                                 <tr>

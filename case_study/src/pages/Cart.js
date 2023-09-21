@@ -15,6 +15,15 @@ function Cart(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (carts.length == 0) {
+            swal({
+                title: "Warning",
+                text: "You don't have product in carts, Please choose some product",
+                icon: "warning",
+                button: "Thanks",
+            });
+            navigate('/');
+        }
         let total = 0;
         carts.forEach((cartItem) => {
             total += cartItem.quantity * cartItem['product'].price * (1 - cartItem['product'].discount * 0.01);
@@ -29,13 +38,13 @@ function Cart(props) {
         newCart.map((cartItem) => {
             if (cartItem.id == id) {
                 if (cartItem.product.quantity < qty) {
+                    e.target.value = cartItem.product.quantity;
                     swal({
                         title: "Warning",
                         text: "Product is not enough!",
                         icon: "warning",
                         button: "Thanks",
                     });
-
                 } else {
                     cartItem.quantity = qty;
                     localStorage.setItem("cart", JSON.stringify(newCart));
@@ -56,9 +65,8 @@ function Cart(props) {
             payload: newCart,
         });
     };
+    const customer = CustomerModel.getCookie("customer");
     const handCheckOut = () => {
-        let customer = CustomerModel.getCookie("customer");
-        customer = customer ? JSON.parse(customer) : "";
         if (customer) {
             navigate('/checkout');
         } else {
@@ -86,11 +94,13 @@ function Cart(props) {
                             <li className="current p_relative d_iblock fs_16 lh_25 fw_sbold font_family_inte">
                                 Cart Page
                             </li>
-                            <li className="current p_relative d_iblock fs_16 lh_25 fw_sbold font_family_inte ml-3">
-                                <Link to="/order">
-                                    Order
-                                </Link>
-                            </li>
+                            {customer !== '' ? (
+                                <li className="current p_relative d_iblock fs_16 lh_25 fw_sbold font_family_inte ml-3">
+                                    <Link to="/order">
+                                        Order
+                                    </Link>
+                                </li>
+                            ) : ''}
                         </ul>
                     </div>
                 </div>

@@ -30,8 +30,7 @@ function LoginForm(props) {
 
     const handleSubmit = (values) => {
         CustomerModel.login(values)
-            .then((res) => {
-                console.log(res);
+        .then((res) => {
                 CustomerModel.setCookie("customer", JSON.stringify(res.customer), res.expires_in);
                 localStorage.setItem("token", res.access_token);
                 navigate("/");

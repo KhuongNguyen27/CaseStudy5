@@ -5,12 +5,15 @@ class OrderModel {
         this.api_url = 'http://127.0.0.1:8000/api/orders';
     }
 
-
     async checkout(data) {
-        const res = await axios.post(this.api_url + '/checkout' , data)
+        const res = await axios.post(this.api_url + "/checkout" , data)
         return res.data;
     }  
 
+    async findwcus(customer_id){
+        const res = await axios.get(this.api_url + "/follow_order/" + customer_id)
+        return res.data;
+    }
 }
 
 export default new OrderModel();

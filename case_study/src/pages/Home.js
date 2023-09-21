@@ -173,15 +173,7 @@ function Home(props) {
                 </div>
             </div>
             {/* cta */}
-            <section className="cta">
-                <div className="auto-container">
-                    <div className="cta-container">
-                        <div className="cta five-item-carousel owl-carousel owl-theme">
-                            <Category_home />
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <Category_home />
             {/* cta */}
             <div id="data-wrapper">
                 <div className="col-12 text-center m-5">

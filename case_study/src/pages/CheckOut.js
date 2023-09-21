@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Master from '../layouts/Master';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NumericFormat } from "react-number-format";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CustomerModel from '../models/CustomerModel';
+import OrderModel from '../models/OrderModel';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { SET_CART } from "../redux/action";
 
-const customer = JSON.parse(CustomerModel.getCookie("customer"));
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string().required('Please insert name again'),
@@ -17,34 +18,83 @@ const SignupSchema = Yup.object().shape({
 
 });
 
-const initialValues = {
-    name: customer.name,
-    address: customer.address,
-    phone: customer.phone,
-    note: customer.notes,
-};
-
 function CheckOut(props) {
+
     const carts = useSelector((state) => state.cart);
     const [cartTotal, setCartTotal] = useState(0);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [customer, setCustomer] = useState({
+        name: "",
+        phone: "",
+        address: "",
+        note: "",
+    });
+    const [note, setNote] = useState('');
+
     useEffect(() => {
+        const customerCookie = CustomerModel.getCookie("customer");
+        if (customerCookie) {
+            const customerData = JSON.parse(customerCookie);
+            customerData.note = note;
+            setCustomer(customerData);
+        } else {
+            navigate("/");
+            Swal.fire({
+                icon: "error",
+                title: "Please login",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
         let total = 0;
         carts.forEach((cartItem) => {
             total += cartItem.quantity * cartItem['product'].price * (1 - cartItem['product'].discount * 0.01);
         });
         setCartTotal(total);
-    }, [carts]);
+    }, []);
 
-    const handleSubmit = (event) => {
-        Swal.fire({
-            icon: "success",
-            title: "Order Success! Thank you <3",
-            showConfirmButton: false,
-            timer: 1500,
-        });
-        navigate('/');
-    }
+    const initialValues = {
+        name: customer.name,
+        phone: customer.phone,
+        address: customer.address,
+    };
+
+
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setCustomer((prevCustomer) => ({
+            ...prevCustomer,
+            [name]: value,
+        }));
+    };
+    const handleSubmit = () => {
+        let data = customer;
+        data.carts = carts;
+        OrderModel.checkout(data)
+            .then((res) => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Order Success! Thank you <3",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                // set local, setcart
+                localStorage.removeItem("cart");
+                dispatch({ type: SET_CART, payload: [] });
+                // chuyen huong
+                navigate('/');
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Order Fail! Please try again",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            });
+    };
     return (
         <Master>
             <section className="checkout-section p_relative pt_140 pb_150">
@@ -57,6 +107,7 @@ function CheckOut(props) {
                                         Billing Details
                                     </h4>
                                     <Formik
+                                        enableReinitialize={true}
                                         initialValues={initialValues}
                                         validationSchema={SignupSchema}
                                         onSubmit={handleSubmit}
@@ -72,10 +123,10 @@ function CheckOut(props) {
                                                     <div className="field-input">
                                                         <Field
                                                             type="text"
-                                                            defaultValue={customer.name}
                                                             name="name"
                                                             className="form-control"
-                                                            readOnly=""
+                                                            value={customer.name}
+                                                            onChange={handleChange}
                                                         />
                                                         <ErrorMessage name="name" className='btn btn-danger form-control form-control-user' component="div" />
                                                     </div>
@@ -87,9 +138,10 @@ function CheckOut(props) {
                                                     <div className="field-input">
                                                         <Field
                                                             type="text"
-                                                            defaultValue={customer.address}
                                                             name="address"
                                                             className="col-12 form-control"
+                                                            value={customer.address}
+                                                            onChange={handleChange}
                                                         />
                                                         <ErrorMessage name="address" className='btn btn-danger form-control form-control-user' component="div" />
                                                     </div>
@@ -101,9 +153,10 @@ function CheckOut(props) {
                                                     <div className="field-input">
                                                         <Field
                                                             type="text"
-                                                            defaultValue={customer.phone}
                                                             name="phone"
                                                             className="form-control"
+                                                            value={customer.phone}
+                                                            onChange={handleChange}
                                                         />
                                                         <ErrorMessage name="phone" className='btn btn-danger form-control form-control-user' component="div" />
                                                     </div>
@@ -115,10 +168,11 @@ function CheckOut(props) {
                                                     <div className="field-input">
                                                         <textarea
                                                             name="note"
-                                                            id=""
                                                             cols={30}
                                                             rows={5}
                                                             className="form-control"
+                                                            value={customer.note || ''}
+                                                            onChange={handleChange}
                                                         />
                                                     </div>
                                                 </div>

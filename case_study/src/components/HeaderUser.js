@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CustomerModel from "../models/CustomerModel";
@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 function HeaderUser(props) {
     const cart = useSelector((state) => state.cart);
     const navigate = useNavigate();
-
     const handleLogout = () => {
         CustomerModel.logout()
             .then((response) => {
@@ -29,7 +28,9 @@ function HeaderUser(props) {
             });
     };
     let customer = CustomerModel.getCookie("customer");
-    customer = customer ? JSON.parse(customer) : "";
+    if (customer != "undefined") {
+        customer = customer ? JSON.parse(customer) : '';    
+    }
     return (
         <ul
             className="right-info col-2"
